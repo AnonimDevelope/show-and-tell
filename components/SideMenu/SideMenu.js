@@ -36,8 +36,6 @@ const SideMenu = () => {
     }
   }, [isBrowser]);
 
-  console.log(isMobile);
-
   let sidebarStyle = {
     position: "sticky",
     top: -1,

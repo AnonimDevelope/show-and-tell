@@ -59,8 +59,6 @@ const Settings = () => {
       );
       const data = await response.json();
 
-      console.log("data:", data);
-
       if (data.message === "success") {
         message.success("Updated successfully!");
       }
@@ -96,7 +94,6 @@ const Settings = () => {
         }
       );
       const data = await response.json();
-      console.log(data);
 
       if (data.error) {
         message.error("Something went wrong! Try again later");
