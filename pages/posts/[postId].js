@@ -339,6 +339,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const post = await getPost(params.postId);
+  console.log("Postaoaoaoa: ", post);
   return {
     revalidate: 1,
     props: {

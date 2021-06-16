@@ -161,6 +161,7 @@ const EditorPage = () => {
               <Button
                 onClick={() => router.push("/user/" + user._id)}
                 type="primary"
+                key="btn"
               >
                 My posts
               </Button>,
