@@ -1,0 +1,94 @@
+
+.card {
+  background: white;
+  text-decoration: none;
+  color: #444;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  position: relative;
+  top: 0;
+  transition: all 0.1s ease-in;
+}
+.card:hover {
+  top: -2px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+  color: #444;
+}
+.card article {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #333;
+  line-height: 25px;
+}
+.paragraph {
+  flex: 1;
+  line-height: 1.4;
+  color: #333;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.paragraphBig {
+  flex: 1;
+  line-height: 1.4;
+  color: #333;
+  margin: 16px 0;
+}
+.card span {
+  font-size: 12px;
+  font-weight: bold;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 2em 0 0 0;
+}
+.thumb {
+  padding-bottom: 60%;
+  background-size: cover;
+  background-position: center center;
+  height: 177px;
+}
+
+.infoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+
+.menu {
+  font-size: 23px;
+  cursor: pointer;
+  color: #999;
+  padding: 5px;
+  box-sizing: content-box;
+}
+.menu:hover {
+  color: black
+}
+
+.menuIcon {
+  font-size: 20px;
+  margin-right: 5px;
+  margin-bottom: -4px;
+}
+
+@media (min-width: 70em) {
+  .big {
+    grid-column: 1/span 2;
+  }
+  .big h1 {
+    font-size: 24px;
+  }
+  .paragraphBig {
+    display: none;
+  }
+}

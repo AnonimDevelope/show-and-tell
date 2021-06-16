@@ -1,0 +1,47 @@
+.header {
+  border-bottom: 1px solid black;
+  padding: 15px;
+}
+
+.infoContainer {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 400;
+}
+
+.infoLeft {
+  display: flex;
+  align-items: center;
+  color: #8E8DBE;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.infoRight {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  cursor: pointer;
+  color: #8E8DBE;
+}
+.icon:hover {
+  color: black
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+@media (max-width: 650px) {
+  .infoContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  .header {
+    padding: 15px 0;
+  }
+}

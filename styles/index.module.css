@@ -1,0 +1,30 @@
+.band {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  grid-gap: 20px;
+}
+@media (min-width: 35em) {
+  .band {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 50em) {
+  .band {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 70em) {
+  .band {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.page {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  min-height: 90vh;
+}

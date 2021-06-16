@@ -1,0 +1,29 @@
+$sidebar-bg-color: #394648;
+$sidebar-color: #adadad;
+$sidebar-width: 230px;
+$sidebar-collapsed-width: 80px;
+$highlight-color: #d8d8d8;
+$submenu-bg-color: #394648;
+$submenu-bg-color-collapsed: #394648;
+$icon-bg-color: #394648;
+$icon-size: 35px;
+$breakpoint-xs: 480px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+.sidebarCollapse {
+  margin-bottom: -3px; 
+  cursor: pointer;
+  transition: ease-in .3s transform;
+  &:hover {
+    color: $highlight-color;
+  }
+
+  &.active {
+    transform: rotateY(180deg)
+  }
+}
+
+@import '~react-pro-sidebar/dist/scss/styles.scss';

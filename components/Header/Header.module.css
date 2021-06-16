@@ -1,0 +1,64 @@
+
+.header {
+  width: 100%;
+  background-color: #F6AE2D;
+  max-height: 80px;
+  padding: 5px 0;
+  box-shadow: 0px -4px 11px 0px;
+  z-index: 100;
+}
+
+.flexWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.savesIcon {
+  color: #5A5472;
+  cursor: pointer;
+  transition: ease-in .2s color;
+}
+.savesIcon:hover {
+  color: #fff;
+}
+
+.menuIcon {
+  color: #5A5472;
+  cursor: pointer;
+}
+
+.savesLink {
+
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.signInButton {
+  color: white;
+  background-color: #6f6cec
+}
+.signInButton:hover {
+  color: white;
+  background-color: #8e8bff
+}
+.signInButton:active {
+  color: white;
+  background-color: #8e8bff
+}
+.signInButton:focus {
+  color: white;
+  background-color: #8e8bff
+  
+}
+
+@media (min-width: 768px) {
+  .menuIcon {
+    display: none
+  }
+}

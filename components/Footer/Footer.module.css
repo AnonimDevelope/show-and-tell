@@ -1,0 +1,15 @@
+.footer {
+  height: 80px;
+  background-color: #3C0000;
+}
+
+.text {
+  color: #adadad;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%
+}

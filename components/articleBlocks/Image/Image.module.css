@@ -1,0 +1,24 @@
+.image {
+  width: 100%;
+  max-width: 100%;
+}
+
+.withBorder {
+  border: 10px solid #394648;
+  width: 100%;
+  max-width: 100%;
+  background-color: #394648;
+}
+
+.withBackground {
+  border: 10px solid #394648;
+  width: 100%;
+  max-width: 100%;
+  background-color: #394648;
+  padding: 20px 60px;
+}
+
+.container {
+  margin: 20px 0;
+  position: relative;
+}

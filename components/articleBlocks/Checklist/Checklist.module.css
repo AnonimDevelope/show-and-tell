@@ -1,0 +1,11 @@
+.list {
+  list-style-type: none;
+  margin: 15px 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin: 5px 0;
+}

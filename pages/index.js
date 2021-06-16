@@ -1,3 +1,50 @@
-export default function Home() {
-  return <div>aoaoa</div>;
+import { useState, useEffect } from "react";
+import * as style from "../styles/index.module.css";
+import Layout from "../components/Layout/Layout";
+import ArticleCard from "../components/ArticleCard/ArticleCard";
+import Container from "../components/Container/Container";
+import { getTextFromContent } from "../functions/post";
+import { getAllPosts } from "../functions/post";
+
+export default function Home({ posts }) {
+  const [width, setWidth] = useState(1366);
+  const isBrowser = typeof window !== "undefined";
+
+  useEffect(() => {
+    if (isBrowser) {
+      setWidth(window.innerWidth);
+    }
+  }, [isBrowser]);
+
+  return (
+    <Layout>
+      <div className={style.page}>
+        <Container>
+          <div className={style.band}>
+            {posts.map((post, index) => {
+              return (
+                <ArticleCard
+                  key={post._id}
+                  postId={post._id}
+                  style={{ marginBottom: 20 }}
+                  title={post.title}
+                  content={getTextFromContent(post.content)}
+                  thumbnail={post.thumbnail}
+                  author={post.author ? post.author.name : null}
+                  linkTo={"/posts/" + post.slug}
+                  big={index === 0 && width > 980}
+                />
+              );
+            })}
+          </div>
+        </Container>
+      </div>
+    </Layout>
+  );
 }
+
+export const getServerSideProps = async () => {
+  const posts = await getAllPosts();
+
+  return { props: { posts } };
+};

@@ -1,0 +1,17 @@
+.icon {
+  cursor: pointer;
+  color: #8E8DBE;
+}
+.icon:hover {
+  color: black
+}
+
+.iconActive {
+  cursor: pointer;
+  color: #8584b0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+}

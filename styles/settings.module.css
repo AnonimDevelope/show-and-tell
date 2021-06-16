@@ -1,0 +1,16 @@
+.title {
+  text-align: center;
+}
+
+.avatar {
+  width: 250px;
+  height: 250px;
+}
+
+.uploadButton {
+  margin-left: 30px;
+}
+
+.inputIcon {
+  margin-right: 6px;
+}
