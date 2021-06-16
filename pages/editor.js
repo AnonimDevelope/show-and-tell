@@ -48,7 +48,7 @@ const EditorPage = () => {
 
       formData.append("title", title);
       formData.append("readTime", readTime);
-      formData.append("content", JSON.stringify(savedData));
+      formData.append("content", savedData);
       formData.append("thumbnail", thumbnail);
 
       const token = localStorage.getItem("token");
@@ -85,7 +85,7 @@ const EditorPage = () => {
 
       formData.append("title", title);
       formData.append("readTime", readTime);
-      formData.append("content", JSON.stringify(savedData));
+      formData.append("content", savedData);
       if (thumbnail) {
         formData.append("thumbnail", thumbnail);
       }
@@ -267,7 +267,7 @@ const EditorPage = () => {
         {process.browser && (
           <Editor
             editorRef={editorRef}
-            data={editingPost ? JSON.parse(editingPost.content) : false}
+            data={editingPost ? editingPost.content : false}
           />
         )}
         <div className={style.publishContainer}>

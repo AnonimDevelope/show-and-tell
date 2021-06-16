@@ -26,7 +26,7 @@ import {
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
-  const content = JSON.parse(post.content);
+  const content = post.content;
   const blocks = content.blocks;
 
   const user = useSelector((state) => state.auth.user);

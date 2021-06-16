@@ -254,8 +254,7 @@ export const deletePost = async (postId) => {
   return await response.json();
 };
 
-export const getTextFromContent = (data) => {
-  const content = JSON.parse(data);
+export const getTextFromContent = (content) => {
   let text = "";
 
   content.blocks.forEach((block) => {
