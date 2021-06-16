@@ -44,11 +44,12 @@ const EditorPage = () => {
       setIsLoading(true);
 
       const savedData = await editorRef.current.save();
+
       const formData = new FormData();
 
       formData.append("title", title);
       formData.append("readTime", readTime);
-      formData.append("content", savedData);
+      formData.append("content", JSON.stringify(savedData));
       formData.append("thumbnail", thumbnail);
 
       const token = localStorage.getItem("token");
@@ -85,7 +86,7 @@ const EditorPage = () => {
 
       formData.append("title", title);
       formData.append("readTime", readTime);
-      formData.append("content", savedData);
+      formData.append("content", JSON.stringify(savedData));
       if (thumbnail) {
         formData.append("thumbnail", thumbnail);
       }
