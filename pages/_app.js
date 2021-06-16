@@ -2,11 +2,7 @@ import { useEffect } from "react";
 import "../styles/globals.css";
 import "../styles/sideMenu.scss";
 import "antd/dist/antd.css";
-import { createStore, applyMiddleware, compose, combineReducers } from "redux";
-import { Provider, useDispatch } from "react-redux";
-import thunk from "redux-thunk";
-import sideMenuReducer from "../store/reducers/sideMenu";
-import authReducer from "../store/reducers/auth";
+import { useDispatch } from "react-redux";
 import { authenticate } from "../store/actions/index";
 import { wrapper } from "../store/store";
 
