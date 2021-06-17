@@ -9,6 +9,7 @@ import { AiOutlineLike } from "@react-icons/all-files/ai/AiOutlineLike";
 import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { AiOutlineDislike } from "@react-icons/all-files/ai/AiOutlineDislike";
 import { AiFillDislike } from "@react-icons/all-files/ai/AiFillDislike";
+import parse from "html-react-parser";
 import {
   getPostInfo,
   addLike,
@@ -150,7 +151,7 @@ const ArticleCard = ({
               ellipsis={{ rows: 10 }}
               className={big ? style.paragraphBig : style.paragraph}
             >
-              {content}
+              {parse(content)}
             </Paragraph>
             <div className={style.infoContainer}>
               <Text style={{ margin: 0 }}>

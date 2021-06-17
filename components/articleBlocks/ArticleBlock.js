@@ -11,33 +11,24 @@ const Checklist = dynamic(() => import("./Checklist/Checklist"));
 const Warning = dynamic(() => import("./Warning/Warning"));
 const Raw = dynamic(() => import("./Raw/Raw"));
 
-const ArticleBlock = ({
-  type,
-  text,
-  level,
-  items,
-  style,
-  data,
-  code,
-  table,
-}) => {
+const ArticleBlock = ({ type, data }) => {
   switch (type) {
     case "header":
-      return <Header text={text} level={level} />;
+      return <Header text={data.text} level={data.level} />;
     case "paragraph":
-      return <Paragraph text={text} />;
+      return <Paragraph text={data.text} />;
     case "list":
-      return <List items={items} style={style} />;
+      return <List items={data.items} style={data.style} />;
     case "delimiter":
       return <Delimiter />;
     case "image":
       return <Image data={data} />;
     case "code":
-      return <Code code={code} />;
+      return <Code code={data.code} />;
     case "table":
-      return <Table table={table} />;
+      return <Table table={data.content} />;
     case "checklist":
-      return <Checklist items={items} />;
+      return <Checklist items={data.items} />;
     case "warning":
       return <Warning data={data} />;
     case "raw":

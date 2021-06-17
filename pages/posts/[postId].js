@@ -200,17 +200,11 @@ const Post = ({ post }) => {
           isPostSaved={isPostSaved}
         />
         <Container style={{ fontSize: 16, padding: 15 }} sm>
-          {blocks.map((block, index) => (
+          {blocks.map((block) => (
             <ArticleBlock
-              key={index}
+              key={block.id}
               type={block.type || ""}
-              text={block.data.text || ""}
-              level={block.data.level || 1}
-              items={block.data.items || []}
-              style={block.data.style || "unordered"}
               data={block.data || ""}
-              code={block.data.code || ""}
-              table={block.data.content || ""}
             />
           ))}
         </Container>
