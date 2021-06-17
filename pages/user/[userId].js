@@ -40,12 +40,13 @@ const Profile = () => {
         const data = await getUserProfile(userId);
 
         if (data.error) {
+          message.error("Something went wrong! Try again later");
           return;
         }
 
         setUser(data);
       } catch (error) {
-        console.log("error: ", error);
+        console.log(error);
         message.error("Something went wrong! Try again later");
       }
     })();
@@ -53,7 +54,10 @@ const Profile = () => {
 
   const onDeletePost = async (postId) => {
     try {
-      deletePost(postId);
+      const newProfile = await deletePost(postId);
+      if (newProfile.error)
+        message.error("Something went wrong! Try again later");
+      setUser(newProfile);
     } catch (error) {
       message.error("Something went wrong! Try again later");
     }
@@ -116,14 +120,7 @@ const Profile = () => {
               </div>
             </div>
             {isMyAccount && (
-              <Link
-                href="/settings"
-                state={{
-                  name: user.name,
-                  email: user.email,
-                  avatar: user.avatar,
-                }}
-              >
+              <Link href="/settings">
                 <FcSettings size={30} className={style.settingsIcon} />
               </Link>
             )}

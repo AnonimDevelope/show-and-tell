@@ -81,6 +81,14 @@
   margin-bottom: -4px;
 }
 
+.author {
+  margin:  0;
+  cursor: pointer;
+}
+.author:hover {
+  color: black;
+}
+
 @media (min-width: 70em) {
   .big {
     grid-column: 1/span 2;

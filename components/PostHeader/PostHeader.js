@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import * as style from "./PostHeader.module.css";
 import { UserOutlined } from "@ant-design/icons";
 import { MdTurnedInNot } from "@react-icons/all-files/md/MdTurnedInNot";
@@ -47,6 +47,7 @@ const PostHeader = ({
               style={{
                 backgroundColor: "rgb(134 133 160)",
                 cursor: "pointer",
+                marginTop: 5,
               }}
             />
             <Link href={`/user/${author._id}`}>
@@ -56,12 +57,20 @@ const PostHeader = ({
                   marginLeft: 10,
                   color: "#8E8DBE",
                   cursor: "pointer",
+                  marginTop: 5,
                 }}
               >
                 {author.name}
               </Text>
             </Link>
-            <Text style={{ fontSize: 15, marginLeft: 10, color: "#8E8DBE" }}>
+            <Text
+              style={{
+                fontSize: 15,
+                marginLeft: 10,
+                color: "#8E8DBE",
+                marginTop: 5,
+              }}
+            >
               {date} - {readTime}
             </Text>
           </div>
@@ -99,4 +108,4 @@ const PostHeader = ({
   );
 };
 
-export default PostHeader;
+export default memo(PostHeader);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import * as style from "./SignInModal.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import ClickAwayListener from "react-click-away-listener";
@@ -193,4 +193,4 @@ const SignInModal = ({ onClose, isVisible }) => {
   return null;
 };
 
-export default SignInModal;
+export default memo(SignInModal);

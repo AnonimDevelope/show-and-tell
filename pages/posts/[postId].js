@@ -8,7 +8,6 @@ import PostHeader from "../../components/PostHeader/PostHeader";
 import Comment from "../../components/Comment/Comment";
 import { Form, Button, Input, Avatar, Typography, message } from "antd";
 import { setModalVisibility } from "../../store/actions/index";
-import { getAllPosts, getPost } from "../../functions/post";
 import {
   postComment,
   addLike,
@@ -22,7 +21,10 @@ import {
   getPostInfo,
   getComments,
   getDate,
+  getAllPosts,
+  getPost,
 } from "../../functions/post";
+import { addToHistory } from "../../functions/user";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -39,25 +41,19 @@ const Post = ({ post }) => {
   const [replyTo, setReplyTo] = useState(null);
 
   const { TextArea } = Input;
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    fetch(
-      `${
-        process.env.NEXT_PUBLIC_DOMAIN_API
-      }user/history?secret_token=${localStorage.getItem("token")}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ _id: post._id, authorId: post.author._id }),
-      }
-    );
-  }, [post._id, post.author._id]);
+    if (user) {
+      addToHistory(post._id, post.author._id);
+    }
+  }, [post._id, post.author._id, user]);
 
   useEffect(() => {
     (async () => {
       try {
+        if (!user) return;
+
         const data = await getPostInfo(post._id);
 
         setLikes(data.likes);
@@ -68,7 +64,7 @@ const Post = ({ post }) => {
         console.log(error);
       }
     })();
-  }, [post._id]);
+  }, [post._id, user]);
 
   useEffect(() => {
     (async () => {
@@ -82,14 +78,11 @@ const Post = ({ post }) => {
         console.log(error);
       }
     })();
-  }, [post._id, user]);
+  }, [post._id]);
 
   const onPostComment = async ({ comment }) => {
     try {
-      if (!user) {
-        dispatch(setModalVisibility(true));
-        return;
-      }
+      if (!user) return dispatch(setModalVisibility(true));
 
       setIsCommentsLoading(true);
       const data = await postComment(post._id, comment, replyTo);
@@ -98,6 +91,9 @@ const Post = ({ post }) => {
         setIsCommentsLoading(false);
         return;
       }
+
+      form.setFields([{ name: "comment", value: "" }]);
+
       setComments(data);
       setReplyTo(null);
       setIsCommentsLoading(false);
@@ -108,9 +104,7 @@ const Post = ({ post }) => {
   };
 
   const onAddLike = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
 
     addLike(post._id);
 
@@ -125,9 +119,8 @@ const Post = ({ post }) => {
   };
 
   const onDeleteLike = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteLike(post._id);
 
     setLikes(likes - 1);
@@ -135,9 +128,8 @@ const Post = ({ post }) => {
   };
 
   const onAddDislike = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
+
     addDislike(post._id);
 
     if (myRate === "liked") {
@@ -151,9 +143,8 @@ const Post = ({ post }) => {
   };
 
   const onDeleteDislike = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteDislike(post._id);
 
     setDislikes(dislikes - 1);
@@ -161,18 +152,15 @@ const Post = ({ post }) => {
   };
 
   const onSavePost = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
 
     savePost(post._id);
     setIsPostSaved(true);
   };
 
   const onDeleteSavedPost = () => {
-    if (!user) {
-      return;
-    }
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteSavedPost(post._id);
     setIsPostSaved(false);
   };
@@ -241,7 +229,11 @@ const Post = ({ post }) => {
                 src={user && user.avatar}
                 alt={user && user.name}
               />
-              <Form onFinish={onPostComment} style={{ width: "100%" }}>
+              <Form
+                onFinish={onPostComment}
+                form={form}
+                style={{ width: "100%" }}
+              >
                 <Form.Item
                   name="comment"
                   rules={[
@@ -267,7 +259,7 @@ const Post = ({ post }) => {
             {comments &&
               comments
                 .slice()
-                .sort((a, b) => b.date - a.date)
+                .sort((a, b) => b.likes[0] - a.likes[0])
                 .map((comment) => (
                   <Comment
                     action={comment.myAction}
@@ -280,6 +272,8 @@ const Post = ({ post }) => {
                     avatar={comment.author.avatar}
                     onLike={() => likeComm(post._id, comment._id)}
                     onDislike={() => dislikeComm(post._id, comment._id)}
+                    user={user}
+                    onShowLogin={() => dispatch(setModalVisibility(true))}
                     onReply={() =>
                       setReplyTo({
                         name: comment.author.name,
@@ -289,7 +283,7 @@ const Post = ({ post }) => {
                   >
                     {comment.replies
                       .slice()
-                      .sort((a, b) => b.date - a.date)
+                      .sort((a, b) => b.likes[0] - a.likes[0])
                       .map((nestedComm) => (
                         <Comment
                           action={nestedComm.myAction}
@@ -301,6 +295,8 @@ const Post = ({ post }) => {
                           comment={nestedComm.comment}
                           avatar={nestedComm.author.avatar}
                           reply={false}
+                          user={user}
+                          onShowLogin={() => dispatch(setModalVisibility(true))}
                           onLike={() =>
                             likeComm(post._id, comment._id, nestedComm._id)
                           }

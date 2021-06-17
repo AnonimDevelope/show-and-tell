@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { Typography, Dropdown, Menu } from "antd";
 import * as style from "./ArticleCard.module.css";
@@ -10,6 +11,7 @@ import { AiFillLike } from "@react-icons/all-files/ai/AiFillLike";
 import { AiOutlineDislike } from "@react-icons/all-files/ai/AiOutlineDislike";
 import { AiFillDislike } from "@react-icons/all-files/ai/AiFillDislike";
 import parse from "html-react-parser";
+import { setModalVisibility } from "../../store/actions/index";
 import {
   getPostInfo,
   addLike,
@@ -32,15 +34,20 @@ const ArticleCard = ({
   date,
   customMenu,
   content,
+  authorId,
 }) => {
+  const dispatch = useDispatch();
   const { Paragraph, Text, Title } = Typography;
 
   const [myRate, setMyRate] = useState(null);
   const [isPostSaved, setIsPostSaved] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     (async () => {
       try {
+        if (!user) return;
+
         const data = await getPostInfo(postId);
         setMyRate(data.myRate);
         setIsPostSaved(data.isSaved);
@@ -52,36 +59,49 @@ const ArticleCard = ({
 
   const onAddLike = ({ domEvent }) => {
     domEvent.stopPropagation();
+
+    if (!user) return dispatch(setModalVisibility(true));
+
     addLike(postId);
     setMyRate("liked");
   };
 
   const onDeleteLike = ({ domEvent }) => {
     domEvent.stopPropagation();
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteLike(postId);
     setMyRate(null);
   };
 
   const onAddDislike = ({ domEvent }) => {
     domEvent.stopPropagation();
+    if (!user) return dispatch(setModalVisibility(true));
+
     addDislike(postId);
     setMyRate("disliked");
   };
 
   const onDeleteDislike = ({ domEvent }) => {
     domEvent.stopPropagation();
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteDislike(postId);
     setMyRate(null);
   };
 
   const onSavePost = ({ domEvent }) => {
     domEvent.stopPropagation();
+    if (!user) return dispatch(setModalVisibility(true));
+
     savePost(postId);
     setIsPostSaved(true);
   };
 
   const onDeleteSavedPost = ({ domEvent }) => {
     domEvent.stopPropagation();
+    if (!user) return dispatch(setModalVisibility(true));
+
     deleteSavedPost(postId);
     setIsPostSaved(false);
 
@@ -154,9 +174,13 @@ const ArticleCard = ({
               {parse(content)}
             </Paragraph>
             <div className={style.infoContainer}>
-              <Text style={{ margin: 0 }}>
-                {author ? author : getDate(date)}
-              </Text>
+              {author ? (
+                <Link href={`/user/${authorId}`}>
+                  <Text className={style.author}>{author}</Text>
+                </Link>
+              ) : (
+                <Text style={{ margin: 0 }}>{getDate(date)}</Text>
+              )}
               <Dropdown
                 placement="topCenter"
                 overlay={customMenu ? customMenu : menu}
@@ -172,4 +196,4 @@ const ArticleCard = ({
   );
 };
 
-export default ArticleCard;
+export default memo(ArticleCard);

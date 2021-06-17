@@ -1,5 +1,6 @@
-import React from "react"
-import * as style from "./Table.module.css"
+import React from "react";
+import * as style from "./Table.module.css";
+import parse from "html-react-parser";
 
 const Table = ({ table }) => {
   return (
@@ -14,20 +15,22 @@ const Table = ({ table }) => {
                   style={{ width: `${100 / row.length}%` }}
                   className={style.item}
                 >
-                  {item
-                    .replaceAll(
-                      '<div class="tc-table__area"><div class="tc-table__inp" contenteditable="true">',
-                      ""
-                    )
-                    .replaceAll("</div></div>", "")}
+                  {parse(
+                    item
+                      .replace(
+                        /<div class="tc-table__area"><div class="tc-table__inp" contenteditable="true">/g,
+                        ""
+                      )
+                      .replace(/<\/div><\/div>/g, "")
+                  )}
                 </div>
-              )
+              );
             })}
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
-export default Table
+export default Table;

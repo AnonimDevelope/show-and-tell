@@ -1,3 +1,4 @@
+import { memo } from "react";
 import * as style from "./Header.module.css";
 import Container from "../Container/Container";
 import SignInModal from "../SignInModal/SignInModal";
@@ -68,4 +69,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);

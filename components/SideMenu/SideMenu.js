@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   ProSidebar,
@@ -146,4 +146,4 @@ const SideMenu = () => {
   );
 };
 
-export default SideMenu;
+export default memo(SideMenu);

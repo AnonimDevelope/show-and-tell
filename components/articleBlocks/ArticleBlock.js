@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import dynamic from "next/dynamic";
 const Header = dynamic(() => import("./Header/Header"));
 const Paragraph = dynamic(() => import("./Paragraph/Paragraph"));
@@ -39,4 +39,4 @@ const ArticleBlock = ({ type, data }) => {
   }
 };
 
-export default ArticleBlock;
+export default memo(ArticleBlock);

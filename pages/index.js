@@ -31,6 +31,7 @@ export default function Home({ posts }) {
                   content={getTextFromContent(post.content)}
                   thumbnail={post.thumbnail}
                   author={post.author ? post.author.name : null}
+                  authorId={post.authorId}
                   linkTo={"/posts/" + post.slug}
                   big={index === 0 && width > 980}
                 />

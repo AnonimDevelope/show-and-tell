@@ -15,11 +15,14 @@
   color: #8E8DBE;
   flex-wrap: wrap;
   justify-content: center;
+  margin-top: 5px;
+
 }
 
 .infoRight {
   display: flex;
   align-items: center;
+  margin-top: 5px;
 }
 
 .icon {

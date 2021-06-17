@@ -244,7 +244,7 @@ const EditorPage = () => {
                           : URL.createObjectURL(thumbnail)
                       }
                       style={{ maxWidth: 100, height: 40 }}
-                      alt=""
+                      alt="."
                     />
                     <Button
                       onClick={() => uploadRef.current.click()}

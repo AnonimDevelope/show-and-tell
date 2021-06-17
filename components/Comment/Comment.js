@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Comment as AntComment, Avatar, Tooltip } from "antd";
 import Link from "next/link";
 import {
@@ -22,12 +22,16 @@ const Comment = ({
   onDislike,
   onReply,
   authorId,
+  user,
+  onShowLogin,
 }) => {
   const [likesLocal, setLikesLocal] = useState(likes);
   const [dislikesLocal, setDislikesLocal] = useState(dislikes);
   const [myAction, setMyAction] = useState(action);
 
   const likeHandler = () => {
+    if (!user) return onShowLogin();
+
     if (myAction === "liked") {
       onLike();
       setLikesLocal(likesLocal - 1);
@@ -45,6 +49,8 @@ const Comment = ({
   };
 
   const dislikeHandler = () => {
+    if (!user) return onShowLogin();
+
     if (myAction === "disliked") {
       onDislike();
       setDislikesLocal(dislikesLocal - 1);
@@ -99,4 +105,4 @@ const Comment = ({
   );
 };
 
-export default Comment;
+export default memo(Comment);

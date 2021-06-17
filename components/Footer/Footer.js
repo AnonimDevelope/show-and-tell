@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import * as style from "./Footer.module.css";
 import { Typography } from "antd";
 import Container from "../Container/Container";
@@ -21,4 +21,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);
