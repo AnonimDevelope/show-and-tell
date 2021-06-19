@@ -1,3 +1,5 @@
+import { stripHtml } from "string-strip-html";
+
 export const postComment = async (postId, comment, replyTo) => {
   if (replyTo) {
     const response = await fetch(
@@ -254,7 +256,7 @@ export const deletePost = async (postId) => {
   return await response.json();
 };
 
-export const getTextFromContent = (content) => {
+export const getHtmlFromContent = (content) => {
   let text = "";
 
   content.blocks.forEach((block) => {
@@ -264,6 +266,18 @@ export const getTextFromContent = (content) => {
   });
 
   return text;
+};
+
+export const getTextFromContent = (content) => {
+  let text = "";
+
+  content.blocks.forEach((block) => {
+    if (block.type === "paragraph") {
+      text = text + " " + block.data.text;
+    }
+  });
+
+  return stripHtml(text).result;
 };
 
 export const getAllPosts = async () => {

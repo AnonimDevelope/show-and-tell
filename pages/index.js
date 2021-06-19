@@ -4,7 +4,7 @@ import Layout from "../components/Layout/Layout";
 import ArticleCard from "../components/ArticleCard/ArticleCard";
 import Container from "../components/Container/Container";
 import SpinPage from "../components/SpinPage/SpinPage";
-import { getTextFromContent } from "../functions/post";
+import { getHtmlFromContent } from "../functions/post";
 import { getAllPosts } from "../functions/post";
 import useSWR from "swr";
 import Head from "next/head";
@@ -32,6 +32,7 @@ export default function Home({ data }) {
     <>
       <Head>
         <title>Show&Tell</title>
+        <meta name="description" content="Post feed" />
       </Head>
       <Layout>
         <div className={style.page}>
@@ -44,7 +45,7 @@ export default function Home({ data }) {
                     postId={post._id}
                     style={{ marginBottom: 20 }}
                     title={post.title}
-                    content={getTextFromContent(post.content)}
+                    content={getHtmlFromContent(post.content)}
                     thumbnail={post.thumbnail}
                     author={post.author ? post.author.name : null}
                     authorId={post.authorId}

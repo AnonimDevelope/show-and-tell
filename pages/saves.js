@@ -5,7 +5,7 @@ import Layout from "../components/Layout/Layout";
 import Container from "../components/Container/Container";
 import ArticleCard from "../components/ArticleCard/ArticleCard";
 import { Empty, Typography } from "antd";
-import { getTextFromContent } from "../functions/post";
+import { getHtmlFromContent } from "../functions/post";
 import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
 import Head from "next/head";
 import SpinPage from "../components/SpinPage/SpinPage";
@@ -89,7 +89,7 @@ const Saves = () => {
                     postId={post._id}
                     style={{ marginBottom: 20 }}
                     title={post.title}
-                    content={getTextFromContent(post.content)}
+                    content={getHtmlFromContent(post.content)}
                     thumbnail={post.thumbnail}
                     author={post.author ? post.author.name : null}
                     authorId={post.authorId}

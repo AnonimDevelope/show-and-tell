@@ -12,7 +12,7 @@ import {
 } from "@ant-design/icons";
 import SpinPage from "../../components/SpinPage/SpinPage";
 import ArticleCard from "../../components/ArticleCard/ArticleCard";
-import { deletePost, getTextFromContent } from "../../functions/post";
+import { deletePost, getHtmlFromContent } from "../../functions/post";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FcSettings } from "@react-icons/all-files/fc/FcSettings";
@@ -175,7 +175,7 @@ const Profile = () => {
                     style={{ marginBottom: 20 }}
                     title={post.title}
                     thumbnail={post.thumbnail}
-                    content={getTextFromContent(post.content)}
+                    content={getHtmlFromContent(post.content)}
                     author={post.author ? post.author.name : null}
                     linkTo={"/posts/" + post.slug}
                     date={post.date}

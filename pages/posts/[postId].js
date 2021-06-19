@@ -23,6 +23,7 @@ import {
   getDate,
   getAllPosts,
   getPost,
+  getTextFromContent,
 } from "../../functions/post";
 import { addToHistory } from "../../functions/user";
 import useSWR from "swr";
@@ -179,6 +180,7 @@ const Post = ({ post }) => {
     <>
       <Head>
         <title>{post.title}</title>
+        <meta name="description" content={getTextFromContent(post.content)} />
       </Head>
       <Layout>
         <PostHeader
