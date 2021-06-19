@@ -74,7 +74,7 @@ const Saves = () => {
         <title>Saves</title>
       </Head>
       <Layout>
-        <Container style={{ padding: "20px 15px" }}>
+        <Container style={{ padding: "20px 15px", minHeight: "90vh" }}>
           <Typography.Title style={{ textAlign: "center" }} level={1}>
             Your saved posts
           </Typography.Title>

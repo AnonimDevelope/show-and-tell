@@ -125,7 +125,7 @@ const History = () => {
         <title>History</title>
       </Head>
       <Layout>
-        <Container style={{ paddingTop: 25 }}>
+        <Container style={{ paddingTop: 25, minHeight: "90vh" }}>
           <Table
             rowSelection={{
               type: "checkbox",

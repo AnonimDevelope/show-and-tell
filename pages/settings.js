@@ -116,7 +116,7 @@ const Settings = () => {
 
   return (
     <Layout>
-      <Container sm>
+      <Container sm style={{ minHeight: "90vh" }}>
         <Title className={style.title} level={1}>
           Settings
         </Title>

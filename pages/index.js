@@ -32,7 +32,10 @@ export default function Home({ data }) {
     <>
       <Head>
         <title>Show&Tell</title>
-        <meta name="description" content="Post feed" />
+        <meta
+          name="description"
+          content="Discover a fast way to share your experience with other people."
+        />
       </Head>
       <Layout>
         <div className={style.page}>
