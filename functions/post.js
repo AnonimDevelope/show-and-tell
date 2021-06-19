@@ -33,7 +33,7 @@ export const postComment = async (postId, comment, replyTo) => {
 };
 
 export const addLike = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }posts/${postId}/like?secret_token=${localStorage.getItem("token")}`,
@@ -47,7 +47,7 @@ export const addLike = (postId) => {
 };
 
 export const deleteLike = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }posts/${postId}/like?secret_token=${localStorage.getItem("token")}`,
@@ -61,7 +61,7 @@ export const deleteLike = (postId) => {
 };
 
 export const addDislike = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }posts/${postId}/dislike?secret_token=${localStorage.getItem("token")}`,
@@ -75,7 +75,7 @@ export const addDislike = (postId) => {
 };
 
 export const deleteDislike = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }posts/${postId}/dislike?secret_token=${localStorage.getItem("token")}`,
@@ -89,7 +89,7 @@ export const deleteDislike = (postId) => {
 };
 
 export const savePost = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }user/saves?secret_token=${localStorage.getItem("token")}`,
@@ -104,7 +104,7 @@ export const savePost = (postId) => {
 };
 
 export const deleteSavedPost = (postId) => {
-  fetch(
+  return fetch(
     `${
       process.env.NEXT_PUBLIC_DOMAIN_API
     }user/saves?secret_token=${localStorage.getItem("token")}`,

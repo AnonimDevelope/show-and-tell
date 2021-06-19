@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo } from "react";
+import React, { memo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Link from "next/link";
 import { Typography, Dropdown, Menu } from "antd";
@@ -13,7 +13,6 @@ import { AiFillDislike } from "@react-icons/all-files/ai/AiFillDislike";
 import parse from "html-react-parser";
 import { setModalVisibility } from "../../store/actions/index";
 import {
-  getPostInfo,
   addLike,
   deleteLike,
   addDislike,
@@ -22,6 +21,7 @@ import {
   deleteSavedPost,
   getDate,
 } from "../../functions/post";
+import useSWR from "swr";
 
 const ArticleCard = ({
   title,
@@ -38,72 +38,64 @@ const ArticleCard = ({
 }) => {
   const dispatch = useDispatch();
   const { Paragraph, Text, Title } = Typography;
-
-  const [myRate, setMyRate] = useState(null);
-  const [isPostSaved, setIsPostSaved] = useState(false);
   const user = useSelector((state) => state.auth.user);
+  const { data: info = { myRate: false, isSaved: false }, mutate } = useSWR(
+    `posts/${postId}/rate`
+  );
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!user) return;
-
-        const data = await getPostInfo(postId);
-        setMyRate(data.myRate);
-        setIsPostSaved(data.isSaved);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [postId]);
-
-  const onAddLike = ({ domEvent }) => {
+  const onAddLike = async ({ domEvent }) => {
     domEvent.stopPropagation();
 
     if (!user) return dispatch(setModalVisibility(true));
 
-    addLike(postId);
-    setMyRate("liked");
+    mutate({ ...info, myRate: "liked" }, false);
+    await addLike(postId);
+    mutate();
   };
 
-  const onDeleteLike = ({ domEvent }) => {
+  const onDeleteLike = async ({ domEvent }) => {
     domEvent.stopPropagation();
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteLike(postId);
-    setMyRate(null);
+    mutate({ ...info, myRate: false }, false);
+    await deleteLike(postId);
+    mutate();
   };
 
-  const onAddDislike = ({ domEvent }) => {
+  const onAddDislike = async ({ domEvent }) => {
     domEvent.stopPropagation();
     if (!user) return dispatch(setModalVisibility(true));
 
-    addDislike(postId);
-    setMyRate("disliked");
+    mutate({ ...info, myRate: "disliked" }, false);
+    await addDislike(postId);
+    mutate();
   };
 
-  const onDeleteDislike = ({ domEvent }) => {
+  const onDeleteDislike = async ({ domEvent }) => {
     domEvent.stopPropagation();
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteDislike(postId);
-    setMyRate(null);
+    mutate({ ...info, myRate: false }, false);
+    await deleteDislike(postId);
+    mutate();
   };
 
-  const onSavePost = ({ domEvent }) => {
+  const onSavePost = async ({ domEvent }) => {
     domEvent.stopPropagation();
     if (!user) return dispatch(setModalVisibility(true));
 
-    savePost(postId);
-    setIsPostSaved(true);
+    mutate({ isSaved: true, ...info }, false);
+    await savePost(postId);
+    mutate();
   };
 
-  const onDeleteSavedPost = ({ domEvent }) => {
+  const onDeleteSavedPost = async ({ domEvent }) => {
     domEvent.stopPropagation();
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteSavedPost(postId);
-    setIsPostSaved(false);
+    mutate({ isSaved: false, ...info }, false);
+    await deleteSavedPost(postId);
+    mutate();
 
     if (onRemoveFromSaves) {
       onRemoveFromSaves();
@@ -113,9 +105,9 @@ const ArticleCard = ({
   const menu = (
     <Menu>
       <Menu.Item
-        onClick={myRate === "liked" ? onDeleteLike : onAddLike}
+        onClick={info.myRate === "liked" ? onDeleteLike : onAddLike}
         icon={
-          myRate === "liked" ? (
+          info.myRate === "liked" ? (
             <AiFillLike className={style.menuIcon} />
           ) : (
             <AiOutlineLike className={style.menuIcon} />
@@ -126,9 +118,9 @@ const ArticleCard = ({
         Like
       </Menu.Item>
       <Menu.Item
-        onClick={myRate === "disliked" ? onDeleteDislike : onAddDislike}
+        onClick={info.myRate === "disliked" ? onDeleteDislike : onAddDislike}
         icon={
-          myRate === "disliked" ? (
+          info.myRate === "disliked" ? (
             <AiFillDislike className={style.menuIcon} />
           ) : (
             <AiOutlineDislike className={style.menuIcon} />
@@ -140,9 +132,9 @@ const ArticleCard = ({
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item
-        onClick={isPostSaved ? onDeleteSavedPost : onSavePost}
+        onClick={info.isSaved ? onDeleteSavedPost : onSavePost}
         icon={
-          isPostSaved ? (
+          info.isSaved ? (
             <MdTurnedIn className={style.menuIcon} />
           ) : (
             <MdTurnedInNot className={style.menuIcon} />

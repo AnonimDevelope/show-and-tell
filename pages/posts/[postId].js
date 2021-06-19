@@ -25,6 +25,8 @@ import {
   getPost,
 } from "../../functions/post";
 import { addToHistory } from "../../functions/user";
+import useSWR from "swr";
+import Head from "next/head";
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
@@ -32,13 +34,13 @@ const Post = ({ post }) => {
   const blocks = content.blocks;
 
   const user = useSelector((state) => state.auth.user);
-  const [likes, setLikes] = useState(0);
-  const [dislikes, setDislikes] = useState(0);
-  const [myRate, setMyRate] = useState(null);
-  const [isPostSaved, setIsPostSaved] = useState(false);
   const [comments, setComments] = useState(null);
   const [isCommentsLoading, setIsCommentsLoading] = useState(true);
   const [replyTo, setReplyTo] = useState(null);
+  const {
+    data: info = { myRate: false, isSaved: false, likes: 0, dislikes: 0 },
+    mutate,
+  } = useSWR(`posts/${post._id}/rate`);
 
   const { TextArea } = Input;
   const [form] = Form.useForm();
@@ -49,22 +51,22 @@ const Post = ({ post }) => {
     }
   }, [post._id, post.author._id, user]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (!user) return;
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       if (!user) return;
 
-        const data = await getPostInfo(post._id);
+  //       const data = await getPostInfo(post._id);
 
-        setLikes(data.likes);
-        setDislikes(data.dislikes);
-        setMyRate(data.myRate);
-        setIsPostSaved(data.isSaved);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [post._id, user]);
+  //       setLikes(data.likes);
+  //       setDislikes(data.dislikes);
+  //       setMyRate(data.myRate);
+  //       setIsPostSaved(data.isSaved);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, [post._id, user]);
 
   useEffect(() => {
     (async () => {
@@ -103,72 +105,81 @@ const Post = ({ post }) => {
     }
   };
 
-  const onAddLike = () => {
+  const onAddLike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    addLike(post._id);
+    let newData = {
+      ...info,
+      myRate: "liked",
+      likes: info.likes + 1,
+    };
 
-    if (myRate === "disliked") {
-      setLikes(likes + 1);
-      setDislikes(dislikes - 1);
-      setMyRate("liked");
+    if (info.myRate === "disliked") {
+      newData.dislikes = info.dislikes - 1;
     }
 
-    setLikes(likes + 1);
-    setMyRate("liked");
+    mutate(newData, false);
+    await addLike(post._id);
+    mutate();
   };
 
-  const onDeleteLike = () => {
+  const onDeleteLike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteLike(post._id);
-
-    setLikes(likes - 1);
-    setMyRate(null);
+    mutate({ ...info, likes: info.likes - 1, myRate: false });
+    await deleteLike(post._id);
+    mutate();
   };
 
-  const onAddDislike = () => {
+  const onAddDislike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    addDislike(post._id);
+    let newData = {
+      ...info,
+      myRate: "disliked",
+      dislikes: info.dislikes + 1,
+    };
 
-    if (myRate === "liked") {
-      setDislikes(dislikes + 1);
-      setLikes(likes - 1);
-      setMyRate("disliked");
+    if (info.myRate === "liked") {
+      newData.likes = info.likes - 1;
     }
 
-    setDislikes(dislikes + 1);
-    setMyRate("disliked");
+    mutate(newData, false);
+    await addDislike(post._id);
+    mutate();
   };
 
-  const onDeleteDislike = () => {
+  const onDeleteDislike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteDislike(post._id);
-
-    setDislikes(dislikes - 1);
-    setMyRate(null);
+    mutate({ ...info, dislikes: info.dislikes - 1, myRate: false });
+    await deleteDislike(post._id);
+    mutate();
   };
 
-  const onSavePost = () => {
+  const onSavePost = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    savePost(post._id);
-    setIsPostSaved(true);
+    mutate({ ...info, isSaved: true }, false);
+    await savePost(post._id);
+    mutate();
   };
 
-  const onDeleteSavedPost = () => {
+  const onDeleteSavedPost = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    deleteSavedPost(post._id);
-    setIsPostSaved(false);
+    mutate({ ...info, isSaved: false }, false);
+    await deleteSavedPost(post._id);
+    mutate();
   };
 
   const date = getDate(post.date);
 
   return (
-    <React.Fragment>
+    <>
+      <Head>
+        <title>{post.title}</title>
+      </Head>
       <Layout>
         <PostHeader
           title={post.title}
@@ -176,16 +187,16 @@ const Post = ({ post }) => {
           readTime={`${post.readTime} min read`}
           author={post.author}
           avatar={post.author.avatar}
-          likes={parseInt(likes)}
-          dislikes={parseInt(dislikes)}
-          action={myRate}
+          likes={parseInt(info.likes)}
+          dislikes={parseInt(info.dislikes)}
+          action={info.myRate}
           onAddLike={onAddLike}
           onDeleteLike={onDeleteLike}
           onAddDislike={onAddDislike}
           onDeleteDislike={onDeleteDislike}
           onSavePost={onSavePost}
           onDeleteSavedPost={onDeleteSavedPost}
-          isPostSaved={isPostSaved}
+          isPostSaved={info.isSaved}
         />
         <Container style={{ fontSize: 16, padding: 15 }} sm>
           {blocks.map((block) => (
@@ -310,7 +321,7 @@ const Post = ({ post }) => {
           </Container>
         </div>
       </Layout>
-    </React.Fragment>
+    </>
   );
 };
 

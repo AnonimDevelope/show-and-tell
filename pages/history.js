@@ -6,6 +6,8 @@ import { Empty, Table, Button, Popconfirm, message } from "antd";
 import Link from "next/link";
 import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getUserHistory, clearUserHistory } from "../functions/user";
+import Head from "next/head";
+import SpinPage from "../components/SpinPage/SpinPage";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -85,81 +87,84 @@ const History = () => {
 
   if (isLoading) {
     return (
-      <Layout>
-        <Container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            minHeight: "90vh",
-          }}
-        >
-          <Spin size={30} />
-        </Container>
-      </Layout>
+      <>
+        <Head>
+          <title>History</title>
+        </Head>
+        <SpinPage />
+      </>
     );
   }
 
   if (history.length === 0) {
     return (
-      <Layout>
-        <Container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            minHeight: "90vh",
-          }}
-        >
-          <Empty description="History is clear" />
-        </Container>
-      </Layout>
+      <>
+        <Head>
+          <title>History</title>
+        </Head>
+        <Layout>
+          <Container
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              minHeight: "90vh",
+            }}
+          >
+            <Empty description="History is clear" />
+          </Container>
+        </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
-      <Container style={{ paddingTop: 25 }}>
-        <Table
-          rowSelection={{
-            type: "checkbox",
-            ...rowSelection,
-          }}
-          loading={tableLoading}
-          columns={columns}
-          dataSource={history}
-          footer={() => (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              {selectedRowKeys.length === 0 ? (
-                <Popconfirm
-                  title="Are you sure to clear history?"
-                  onConfirm={clearHistory}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Button size="large" type="ghost" icon={<ClearOutlined />}>
-                    Clear history
-                  </Button>
-                </Popconfirm>
-              ) : (
-                <Popconfirm
-                  title="Are you sure to delete?"
-                  onConfirm={clearHistory}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Button size="large" type="ghost" icon={<DeleteOutlined />}>
-                    Delete selected
-                  </Button>
-                </Popconfirm>
-              )}
-            </div>
-          )}
-        />
-      </Container>
-    </Layout>
+    <>
+      <Head>
+        <title>History</title>
+      </Head>
+      <Layout>
+        <Container style={{ paddingTop: 25 }}>
+          <Table
+            rowSelection={{
+              type: "checkbox",
+              ...rowSelection,
+            }}
+            loading={tableLoading}
+            columns={columns}
+            dataSource={history}
+            footer={() => (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                {selectedRowKeys.length === 0 ? (
+                  <Popconfirm
+                    title="Are you sure to clear history?"
+                    onConfirm={clearHistory}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button size="large" type="ghost" icon={<ClearOutlined />}>
+                      Clear history
+                    </Button>
+                  </Popconfirm>
+                ) : (
+                  <Popconfirm
+                    title="Are you sure to delete?"
+                    onConfirm={clearHistory}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Button size="large" type="ghost" icon={<DeleteOutlined />}>
+                      Delete selected
+                    </Button>
+                  </Popconfirm>
+                )}
+              </div>
+            )}
+          />
+        </Container>
+      </Layout>
+    </>
   );
 };
 

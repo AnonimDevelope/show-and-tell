@@ -1,137 +1,107 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import * as style from "../styles/saves.module.css";
 import Layout from "../components/Layout/Layout";
 import Container from "../components/Container/Container";
-import Spin from "../components/Spin/Spin";
 import ArticleCard from "../components/ArticleCard/ArticleCard";
-import { Empty, Typography, Button, message } from "antd";
-import { setModalVisibility } from "../store/actions/index";
+import { Empty, Typography } from "antd";
 import { getTextFromContent } from "../functions/post";
-import { getUserSaves } from "../functions/user";
+import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
+import Head from "next/head";
+import SpinPage from "../components/SpinPage/SpinPage";
+import useSWR from "swr";
 
 const Saves = () => {
-  const [saves, setSaves] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: saves, mutate } = useSWR("user/saves");
 
   const user = useSelector((state) => state.auth.user);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const data = await getUserSaves();
-
-        if (data.error) {
-          message.error("Something went wrong! Try again later");
-          setIsLoading(false);
-          return;
-        }
-
-        setSaves(data);
-        setIsLoading(false);
-      } catch (error) {
-        message.error("Something went wrong! Try again later");
-        setIsLoading(false);
-      }
-    })();
-  }, []);
 
   const onRemoveFromSaves = (id) => {
     const newSaves = [...saves];
     const index = newSaves.findIndex((post) => post._id === id);
     newSaves.splice(index, 1);
-    setSaves(newSaves);
+    mutate(newSaves);
   };
 
   if (!user) {
     return (
-      <Layout>
-        <Container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            minHeight: "90vh",
-          }}
-        >
-          <Button
-            style={{ backgroundColor: "#6f6cec" }}
-            onClick={() => dispatch(setModalVisibility(true))}
-            type="primary"
-          >
-            Sign In
-          </Button>
-        </Container>
-      </Layout>
+      <>
+        <Head>
+          <title>Saves</title>
+        </Head>
+        <UnautheticatedPage />
+      </>
     );
   }
 
-  if (isLoading) {
+  if (!saves) {
     return (
-      <Layout>
-        <Container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            minHeight: "90vh",
-          }}
-        >
-          <Spin size={30} />
-        </Container>
-      </Layout>
+      <>
+        <Head>
+          <title>Saves</title>
+        </Head>
+        <SpinPage />
+      </>
     );
   }
 
   if (saves && saves.length === 0) {
     return (
-      <Layout>
-        <Container
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            minHeight: "90vh",
-          }}
-        >
-          <Empty description="You don't have any saves" />
-        </Container>
-      </Layout>
+      <>
+        <Head>
+          <title>Saves</title>
+        </Head>
+        <Layout>
+          <Container
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "100%",
+              minHeight: "90vh",
+            }}
+          >
+            <Empty description="You don't have any saves" />
+          </Container>
+        </Layout>
+      </>
     );
   }
 
   return (
-    <Layout>
-      <Container style={{ padding: "20px 15px" }}>
-        <Typography.Title style={{ textAlign: "center" }} level={1}>
-          Your saved posts
-        </Typography.Title>
-        <div className={style.band}>
-          {saves
-            .slice()
-            .sort((a, b) => b.savedDate - a.savedDate)
-            .map((post) => {
-              return (
-                <ArticleCard
-                  key={post._id}
-                  postId={post._id}
-                  style={{ marginBottom: 20 }}
-                  title={post.title}
-                  content={getTextFromContent(post.content)}
-                  thumbnail={post.thumbnail}
-                  author={post.author ? post.author.name : null}
-                  linkTo={"/posts/" + post.slug}
-                  onRemoveFromSaves={() => onRemoveFromSaves(post._id)}
-                />
-              );
-            })}
-        </div>
-      </Container>
-    </Layout>
+    <>
+      <Head>
+        <title>Saves</title>
+      </Head>
+      <Layout>
+        <Container style={{ padding: "20px 15px" }}>
+          <Typography.Title style={{ textAlign: "center" }} level={1}>
+            Your saved posts
+          </Typography.Title>
+          <div className={style.band}>
+            {saves
+              .slice()
+              .sort((a, b) => b.savedDate - a.savedDate)
+              .map((post) => {
+                return (
+                  <ArticleCard
+                    key={post._id}
+                    postId={post._id}
+                    style={{ marginBottom: 20 }}
+                    title={post.title}
+                    content={getTextFromContent(post.content)}
+                    thumbnail={post.thumbnail}
+                    author={post.author ? post.author.name : null}
+                    authorId={post.authorId}
+                    linkTo={"/posts/" + post.slug}
+                    onRemoveFromSaves={() => onRemoveFromSaves(post._id)}
+                  />
+                );
+              })}
+          </div>
+        </Container>
+      </Layout>
+    </>
   );
 };
 
