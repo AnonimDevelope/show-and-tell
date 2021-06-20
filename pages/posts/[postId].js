@@ -52,23 +52,6 @@ const Post = ({ post }) => {
     }
   }, [post._id, post.author._id, user]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       if (!user) return;
-
-  //       const data = await getPostInfo(post._id);
-
-  //       setLikes(data.likes);
-  //       setDislikes(data.dislikes);
-  //       setMyRate(data.myRate);
-  //       setIsPostSaved(data.isSaved);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   })();
-  // }, [post._id, user]);
-
   useEffect(() => {
     (async () => {
       try {
@@ -127,7 +110,7 @@ const Post = ({ post }) => {
   const onDeleteLike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    mutate({ ...info, likes: info.likes - 1, myRate: false });
+    mutate({ ...info, likes: info.likes - 1, myRate: false }, false);
     await deleteLike(post._id);
     mutate();
   };
@@ -153,7 +136,7 @@ const Post = ({ post }) => {
   const onDeleteDislike = async () => {
     if (!user) return dispatch(setModalVisibility(true));
 
-    mutate({ ...info, dislikes: info.dislikes - 1, myRate: false });
+    mutate({ ...info, dislikes: info.dislikes - 1, myRate: false }, false);
     await deleteDislike(post._id);
     mutate();
   };
