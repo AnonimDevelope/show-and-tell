@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import * as style from "../styles/saves.module.css";
 import Layout from "../components/Layout/Layout";

@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Layout from "../components/Layout/Layout";
 import Container from "../components/Container/Container";
-import Spin from "../components/Spin/Spin";
 import { Empty, Table, Button, Popconfirm, message } from "antd";
 import Link from "next/link";
 import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getUserHistory, clearUserHistory } from "../functions/user";
 import Head from "next/head";
 import SpinPage from "../components/SpinPage/SpinPage";
+import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
 
 const History = () => {
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [tableLoading, setTableLoading] = useState(false);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    (async () => {
+    const getHistory = async () => {
       try {
         const data = await getUserHistory();
 
@@ -32,8 +34,10 @@ const History = () => {
         message.error("Something went wrong! Try again later");
         setIsLoading(false);
       }
-    })();
-  }, []);
+    };
+
+    if (user) getHistory();
+  }, [user]);
 
   const clearHistory = async () => {
     try {
@@ -84,6 +88,17 @@ const History = () => {
       title: record.title,
     }),
   };
+
+  if (!user) {
+    return (
+      <>
+        <Head>
+          <title>History</title>
+        </Head>
+        <UnautheticatedPage />
+      </>
+    );
+  }
 
   if (isLoading) {
     return (

@@ -18,7 +18,6 @@ import {
   deleteSavedPost,
   likeComm,
   dislikeComm,
-  getPostInfo,
   getComments,
   getDate,
   getAllPosts,

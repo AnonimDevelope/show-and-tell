@@ -2,20 +2,19 @@ import React, { useRef, useState, useEffect } from "react";
 import * as style from "../styles/editor.module.css";
 import Layout from "../components/Layout/Layout";
 import Container from "../components/Container/Container";
-import { useSelector, useDispatch } from "react-redux";
-import { setModalVisibility } from "../store/actions/index";
+import { useSelector } from "react-redux";
 import { Input, Button, Form, Result, message } from "antd";
 import { UploadOutlined, EditOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
 
 const Editor = dynamic(() => import("../components/Editor/Editor"), {
   ssr: false,
 });
 
 const EditorPage = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
 
   const [thumbnail, setThumbnail] = useState(null);
@@ -126,25 +125,7 @@ const EditorPage = () => {
         <Head>
           <title>New Article</title>
         </Head>
-        <Layout>
-          <Container
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "95%",
-              minHeight: "90vh",
-            }}
-          >
-            <Button
-              style={{ backgroundColor: "#6f6cec" }}
-              onClick={() => dispatch(setModalVisibility(true))}
-              type="primary"
-            >
-              Sign In
-            </Button>
-          </Container>
-        </Layout>
+        <UnautheticatedPage />
       </>
     );
   }
