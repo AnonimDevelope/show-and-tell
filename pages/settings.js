@@ -118,13 +118,15 @@ const Settings = () => {
     setModalVisible(false);
   };
 
-  if (!user) {
-    <>
-      <Head>
-        <title>Settings</title>
-      </Head>
-      <UnauthenticatedPage />
-    </>;
+  if (!user._id) {
+    return (
+      <>
+        <Head>
+          <title>Settings</title>
+        </Head>
+        <UnauthenticatedPage />
+      </>
+    );
   }
 
   return (
