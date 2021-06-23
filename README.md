@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Show&Tell
 
-## Getting Started
+Show&Tell is a full-stack web application built with next.js (React) and Express.js (Node) which let users easily create, publish and view articles. The backend source code of the app can be viewed [here](https://github.com/AnonimDevelope/show-and-tell-api).
 
-First, run the development server:
+## Features
 
-```bash
+One of the important features of the app is performance, achieved by server-side rendering, static generation, prefetching, and caching data.
+All articles are statically generated on the server, so the navigation is very fast. 
+Users can like-dislike articles, save, and comment.
+Comments also can be liked-disliked.
+Users have their profile which can be edited, a history that can be all cleared or cleared selectively, and saves where are saved articles.
+
+## How it works
+
+The project stack is [Next.js](https://nextjs.org/), [Express.js](https://expressjs.com/), [MongoDB](https://www.mongodb.com/).
+[Editor.js](https://editorjs.io/) is used as an editor.
+Some components are from [Ant Design](https://ant.design/) library.
+The global state is controlled by [Redux](https://redux.js.org/).
+[SWR](https://swr.vercel.app/) library is used for data caching.
+All user media is stored on [AWS S3](https://aws.amazon.com/s3/).
+
+## Installation
+
+Install the dependencies and start the server.
+
+```sh
+npm i
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For production environments...
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```sh
+npm i
+npm run build
+npm start
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## License
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT
