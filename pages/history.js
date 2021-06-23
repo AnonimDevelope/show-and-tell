@@ -8,7 +8,7 @@ import { ClearOutlined, DeleteOutlined } from "@ant-design/icons";
 import { getUserHistory, clearUserHistory } from "../functions/user";
 import Head from "next/head";
 import SpinPage from "../components/SpinPage/SpinPage";
-import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
+import UnauthenticatedPage from "../components/UnauthenticatedPage/UnauthenticatedPage";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -95,7 +95,7 @@ const History = () => {
         <Head>
           <title>History</title>
         </Head>
-        <UnautheticatedPage />
+        <UnauthenticatedPage />
       </>
     );
   }

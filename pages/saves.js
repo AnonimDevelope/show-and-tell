@@ -5,7 +5,7 @@ import Container from "../components/Container/Container";
 import ArticleCard from "../components/ArticleCard/ArticleCard";
 import { Empty, Typography } from "antd";
 import { getHtmlFromContent } from "../functions/post";
-import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
+import UnauthenticatedPage from "../components/UnauthenticatedPage/UnauthenticatedPage";
 import Head from "next/head";
 import SpinPage from "../components/SpinPage/SpinPage";
 import useSWR from "swr";
@@ -28,7 +28,7 @@ const Saves = () => {
         <Head>
           <title>Saves</title>
         </Head>
-        <UnautheticatedPage />
+        <UnauthenticatedPage />
       </>
     );
   }

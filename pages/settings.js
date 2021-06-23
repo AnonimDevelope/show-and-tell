@@ -7,7 +7,7 @@ import { Typography, Form, Avatar, Button, Input, Modal, message } from "antd";
 import { UserOutlined, UploadOutlined } from "@ant-design/icons";
 import ReactCodeInput from "react-code-input";
 import { MdLockOutline } from "@react-icons/all-files/md/MdLockOutline";
-import UnauthenticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
+import UnauthenticatedPage from "../components/UnauthenticatedPage/UnauthenticatedPage";
 import Head from "next/head";
 
 const { Title } = Typography;

@@ -8,7 +8,7 @@ import { UploadOutlined, EditOutlined } from "@ant-design/icons";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import UnautheticatedPage from "../components/UnauthenticatedPage/UnautheticatedPage";
+import UnauthenticatedPage from "../components/UnauthenticatedPage/UnauthenticatedPage";
 
 const Editor = dynamic(() => import("../components/Editor/Editor"), {
   ssr: false,
@@ -125,7 +125,7 @@ const EditorPage = () => {
         <Head>
           <title>New Article</title>
         </Head>
-        <UnautheticatedPage />
+        <UnauthenticatedPage />
       </>
     );
   }

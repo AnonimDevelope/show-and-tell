@@ -5,7 +5,7 @@ import Container from "../Container/Container";
 import { useDispatch } from "react-redux";
 import { setModalVisibility } from "../../store/actions";
 
-const UnautheticatedPage = () => {
+const UnauthenticatedPage = () => {
   const dispatch = useDispatch();
 
   return (
@@ -31,4 +31,4 @@ const UnautheticatedPage = () => {
   );
 };
 
-export default UnautheticatedPage;
+export default UnauthenticatedPage;
