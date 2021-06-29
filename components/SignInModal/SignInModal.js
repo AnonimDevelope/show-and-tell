@@ -37,7 +37,7 @@ const SignInModal = ({ onClose, isVisible }) => {
       <div className={style.wrapper}>
         <ClickAwayListener onClickAway={onClose}>
           <div
-            style={page === "Reset" ? { width: 700, height: 500 } : null}
+            style={page === "Reset" ? { maxWidth: 700, maxHeight: 500 } : null}
             className={style.card}
           >
             <GrClose onClick={onClose} className={style.close} size={25} />
