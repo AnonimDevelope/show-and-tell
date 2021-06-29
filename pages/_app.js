@@ -52,15 +52,15 @@ const ReduxAccess = ({ children }) => {
           }?secret_token=${localStorage.getItem("token")}`
         ).then((res) => res.json())
       );
+      mutate(
+        "user/saves",
+        fetch(
+          `${
+            process.env.NEXT_PUBLIC_DOMAIN_API
+          }user/saves?secret_token=${localStorage.getItem("token")}`
+        ).then((res) => res.json())
+      );
     }
-    mutate(
-      "user/saves",
-      fetch(
-        `${
-          process.env.NEXT_PUBLIC_DOMAIN_API
-        }user/saves?secret_token=${localStorage.getItem("token")}`
-      ).then((res) => res.json())
-    );
   }, [user]);
 
   useEffect(() => {

@@ -4,18 +4,18 @@
 }
 
 .withBorder {
-  border: 10px solid #394648;
+  border: 10px solid #394648 !important;
   width: 100%;
   max-width: 100%;
-  background-color: #394648;
+  background-color: #394648 !important;
 }
 
 .withBackground {
-  border: 10px solid #394648;
+  border: 10px solid #394648 !important;
   width: 100%;
   max-width: 100%;
   background-color: #394648;
-  padding: 20px 60px;
+  padding: 20px 60px !important;
 }
 
 .container {
@@ -25,6 +25,6 @@
 
 @media (max-width: 420px) {
   .withBackground {
-    padding: 10px 25px;
+    padding: 10px 25px !important;
   }
 }
