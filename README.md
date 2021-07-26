@@ -1,5 +1,7 @@
 # Show&Tell
 
+Demo: https://show-and-tell.vercel.app/
+
 Show&Tell is a full-stack web application built with next.js (React) and Express.js (Node) which let users easily create, publish and view articles. The backend source code of the app can be viewed [here](https://github.com/AnonimDevelope/show-and-tell-api).
 
 ## Features
