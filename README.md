@@ -8,7 +8,7 @@ Show&Tell is a full-stack web application built with next.js (React) and Express
 
 One of the important features of the app is performance, achieved by server-side rendering, static generation, prefetching, and caching data.
 All articles are statically generated on the server, so the navigation is very fast. 
-Users can like-dislike articles, save, and comment.
+Users can create articles, like-dislike them, save, and comment.
 Comments also can be liked-disliked.
 Users have their profile which can be edited, a history that can be all cleared or cleared selectively, and saves where are saved articles.
 
